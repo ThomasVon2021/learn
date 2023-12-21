@@ -25,20 +25,21 @@ bindPort = 10086
 
 编辑 frpc.toml 文件，配置FRP客户端（外部网络的计算机）,其中serverPort要和服务端的bindPort保持一致：
 ```
-[common]
-serverAddr = your_server_ip
+serverAddr = "110.40.128.155"
 serverPort = 10086
 
-[ssh]
-type = tcp
-localIP = 127.0.0.1
+[[proxies]]
+name = "test-tcp"
+type = "tcp"
+localIP = "127.0.0.1"
 localPort = 80
 remotePort = 6000
 
-[webapp]
-type = tcp
-localIP = 127.0.0.1
-localPort = 10002
+[[proxies]]
+name = "vnc"
+type = "tcp"
+localIP = "127.0.0.1"
+localPort = 5900
 remotePort = 6001
 ```
 serverAddr 和 serverPort 是FRP服务器的地址和端口。
