@@ -1,0 +1,16 @@
+核心仓库：
+https://github.com/rockchip-linux/mpp
+硬件 RK系列板子，譬如rk3566
+pi上目前的推流工具：
+https://github.com/pikvm/ustreamer
+
+目前在rk3566上，使用gstreamer通过下面测试可以成功进行h265的编码
+v4l2-ctl --list-device
+v4l2-ctl -d/dev/v4l-subdev3 --query-dv-timings
+v4l2-ctl -d/dev/v4l-subdev3 --set-dv-bt-timings query
+v4l2-ctl -d/dev/video3 -V
+v4l2-ctl -d/dev/video3 -v pixelformat=UYVY
+
+gst-launch-1.0 -vvv v4l2src ! "video/x-raw,framerate=60/1,format=UYVY" ! mpph264enc ! h264parse ! queue ! matroskamux name=mux ! filesink location=foo.mkv
+
+gst-launch-1.0 -vvv v4l2src ! "video/x-raw,framerate=60/1,format=UYVY" ! mpph265enc ! h265parse ! queue ! matroskamux name=mux ! filesink location=265.mkv
